@@ -1,0 +1,51 @@
+{
+    "purpose": "abcd",
+    "description": "world",
+    "venue": 1,
+    "date": "2023-05-08",
+    "startTime": "4:30:00",
+    "endTime": "15:00:00",
+    "computers": 2,
+    "coins": 1.5,
+    "points": 3,
+    "user": "francis",
+    "officeName": "json",
+    "attendees": [
+        {
+            "name": "kill",	    
+	
+        },
+        {
+            "name": "switch"
+        }
+    ]
+}
+
+ def post(self, request):        
+        serializer= BookingRequestSerializer(data=request.data)    
+            
+        if serializer.is_valid():
+            # ..
+            
+            validated_data=serializer.validated_data
+            attendees=validated_data.pop('attendees')
+            booking=Booking(**validated_data)
+            # ..
+            date=serializer.validated_data['date']
+            # calculate hours_difference
+            startTime=serializer.validated_data['start_time']
+            endTime=serializer.validated_data['end_time']
+            duration=datetime.combine(date,endTime)-datetime.combine(date,startTime)
+            hours_difference = (duration).total_seconds()/3600.0
+            serializer._validated_data['duration_hours']=hours_difference
+            # set status to booked
+            serializer._validated_data['status']='Booked'
+            serializer.save()
+            #..
+            attendeeSerializer=AttendeeSerializer(data=attendees,many=True)
+            if attendeeSerializer.is_valid(raise_exception=True):
+                attendees=attendeeSerializer.save(booking=serializer)
+            #..
+
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)

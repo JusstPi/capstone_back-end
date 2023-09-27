@@ -98,3 +98,16 @@ class AttendeeDetail(APIView):
         serializer = AttendeeSerializer(obj,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
     
+class CancelBooking(APIView):
+    def get(self,request, id):        
+        print(id)
+        obj=Booking.objects.filter(Booking=id)
+        serializer=BookingSerializer(obj,many=True)    
+        return Response(serializer.data,status=status.HTTP_200_OK)
+    
+    def post(self, request, id):
+        booking = Booking.objects.get(Booking=id)
+        booking.status = "cancelled"
+        booking.save()
+        serializer = BookingSerializer(booking)
+        return Response(serializer.data, status=status.HTTP_200_OK)

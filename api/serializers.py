@@ -1,6 +1,6 @@
 import datetime
 from rest_framework import serializers
-from api.models import Booking,Venue,Attendee,User
+from api.models import *
 
 class BookingSerializer(serializers.ModelSerializer):
     class Meta:

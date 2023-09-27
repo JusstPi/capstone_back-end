@@ -1,9 +1,12 @@
 import uuid
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
-from django.contrib.auth.models import AbstractUser
+# from django.core.validators import MaxValueValidator, MinValueValidator
+# from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
-from api.models import Venue
+from api.models.VenueModel import Venue
+from django.db import models
+
+
 class Booking(models.Model):
     id = models.AutoField(primary_key=True)
     bookDate=models.DateTimeField( auto_now_add=True)

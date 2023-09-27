@@ -1,6 +1,6 @@
 run this command to add venue data
 because you cant create booking without these data type the ff:
-INSERT INTO `api_venue` (`id`, `name`, `computers`, `hasCompters`) VALUES
+INSERT INTO `api_venue` (`id`, `name`, `computers`, `hasComputers`) VALUES
 (1, 'Coworking Space', 8, 1),
 (2, 'Conference Room A', 0, 0),
 (3, 'Conference Room B', 0, 0);

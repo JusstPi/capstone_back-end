@@ -2,7 +2,7 @@ from django.urls import path
 from .views import *
 from api.controllers.calendarControl import CalendarControl
 urlpatterns = [
-    # path('booking/',BookingDetail.as_view(),name='creation'),
+    path('booking/',BookingDetail.as_view(),name='creation'),
     # path('currentBookings/',CurrentBookings.as_view(),name='currentBookings'),
     # path('getBookingByVenue/<id>/',BookingByVenue.as_view(),name='bookingsByVenue'),
     # path('booking/',BookingDetail.as_view(),name='creation'),

@@ -5,25 +5,25 @@ from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 from rest_framework.response import Response
 from rest_framework import *
-from rest_framework.views import APIView
+# from rest_framework.views import APIView
 from rest_framework import status
 from api.models import Booking,Venue,User as user,Attendee
 from api.serializers import BookingSerializer, VenueSerializer,BookingRequestSerializer,UserSerializer,AttendeeSerializer
-from rest_framework.permissions import IsAuthenticated,AllowAny
+# from rest_framework.permissions import IsAuthenticated,AllowAny
 from api.jwt_util import decode_user
 from datetime import datetime, date, timedelta
 from rest_framework.decorators import api_view
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.http import JsonResponse
-from rest_framework_simplejwt.tokens import RefreshToken
+# from rest_framework_simplejwt.tokens import RefreshToken
 # Create your views here.
 
-class CalendarControl():
-    @api_view(['GET'])
-    def getAllBooking(request):        
-        obj = Booking.objects.all()
-        serializer = BookingSerializer(obj,many=True)
-        return JsonResponse(serializer.data,status=status.HTTP_200_OK)
+class CalendarController():
+    # @api_view(['GET'])
+    # def getAllBooking(request):        
+    #     obj = Booking.objects.all()
+    #     serializer = BookingSerializer(obj,many=True)
+    #     return JsonResponse(serializer.data,status=status.HTTP_200_OK)
     
     @api_view(['GET'])
     def getCurrentBookings(request):

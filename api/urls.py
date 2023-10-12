@@ -4,6 +4,7 @@ from api.controllers.calendarController import CalendarController
 from api.controllers.bookingController import BookingController
 from api.controllers.detailsController import DetailsController
 from api.controllers.managementController import ManagementController
+from api.controllers.tapController import TapController
 urlpatterns = [
     # path('booking/',BookingDetail.as_view(),name='creation'),
     # path('currentBookings/',CurrentBookings.as_view(),name='currentBookings'),
@@ -37,7 +38,8 @@ urlpatterns = [
     path('deleteAttendee/<attendee_id>/',ManagementController.removeBookingAttendee,name="remove attendee"),
     path('addAttendee/<booking_id>/',ManagementController.addBookingAttendee,name="add attendee for booking"),
     path('editBooking/<booking_id>/',ManagementController.editBooking,name="update booking details"),
-    
+    #for tap or sign in
+    path('logAttendance/',TapController.logAttendance,name="tapping or sign in"),
     
     
     

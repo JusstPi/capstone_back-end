@@ -25,6 +25,8 @@ class Booking(models.Model):
     status=models.CharField(max_length=20,null=True, default='Booked')
     user=models.CharField(max_length=50,null=True)
     venue=models.ForeignKey(Venue,related_name='venue',to_field='id',on_delete=models.CASCADE)
+    venueName=models.CharField(max_length=50,null=True)
+    venueId=models.IntegerField(null=True,default=0)
     user_id=models.IntegerField(default=0,null=True)
     def __str__(self) -> str:
         return f"REF NO:{self.referenceNo}"

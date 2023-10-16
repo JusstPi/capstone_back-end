@@ -4,6 +4,7 @@ from api.controllers.calendarController import CalendarController
 from api.controllers.bookingController import BookingController
 from api.controllers.detailsController import DetailsController
 from api.controllers.managementController import ManagementController
+from api.controllers.dashboardController import DashboardController
 from api.controllers.tapController import TapController
 urlpatterns = [
     # path('booking/',BookingDetail.as_view(),name='creation'),
@@ -40,8 +41,12 @@ urlpatterns = [
     path('editBooking/<booking_id>/',ManagementController.editBooking,name="update booking details"),
     #for tap or sign in
     path('logAttendance/',TapController.logAttendance,name="tapping or sign in"),
-    
-    
-    
-    path('login/',login,name='login')
+    #for dashboard
+    path('getSignedIn/',DashboardController.getSignedIn,name='get all signed in currently in facilities'),
+    path('getExpected/',DashboardController.getExpected,name="get all expected count for each facility"),
+    path('getWaiting/',DashboardController.getWaiting,name="get all waiting for bookings"),
+    path('getOngoing/',DashboardController.getOngoing,name="get all ongoing"),
+    path('getOverstaying/',DashboardController.getOverstaying,name="get overstaying beyond their booking"),
+    path('login/',login,name='login'),
+    path('signup/',signup,name='signup'),
 ]

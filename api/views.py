@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
+from django.contrib.auth.hashers import make_password,check_password
 from django.http.response import JsonResponse
 from rest_framework.response import Response
 from rest_framework import *
 from rest_framework.views import APIView
 from rest_framework import status
-from api.models import Booking,Venue,User as user,Attendee
+from api.models import Booking,Venue,User as users,Attendee
 from api.serializers import BookingSerializer, VenueSerializer,BookingRequestSerializer,UserSerializer,AttendeeSerializer
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from api.jwt_util import decode_user
@@ -15,20 +16,38 @@ from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from rest_framework_simplejwt.tokens import RefreshToken
+
 # Create your views here.
 
+@api_view(['POST'])
+def signup(request):
+    username=request.data.get('username')
+    password=make_password(request.data.get('password'))
+    users.objects.create(username=username,password=password,role='user')
+    return Response({'message':'usercreated'},status=status.HTTP_200_OK)
 @api_view(['POST'])
 def login(request):
     
     username=request.data.get('username')
     password=request.data.get('password')
+    userFound=None
+    userFound=users.objects.get(username=username)
     # insert code here to call the api from other group for authentication using username and password from request
     #  then get the returned user credentials and make jwt token for it
-    id=11
-    user=User(id=11,username=username)
+    if(userFound==None):
+        return Response({'message':'user not found'},status=status.HTTP_200_OK)
+    else:
+        if(check_password(password,userFound.password)==False):
+            print(userFound.password)
+            print(make_password(password))
+            return Response({'message':'Invalid Password'},status=status.HTTP_200_OK)
+    
+    
+    user=User(id=userFound.id,username=username)
     refresh=RefreshToken.for_user(user)
     #extra response options below for jwt
-    refresh['username']=user.username
+    refresh['username']=userFound.username
+    refresh['role']=userFound.role
     data={
         'refresh':str(refresh),
         'access':str(refresh.access_token),

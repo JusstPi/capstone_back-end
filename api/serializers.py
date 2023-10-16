@@ -19,6 +19,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model=User
         fields=('username','id')
+        
+class AttendanceResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Attendance
+        fields=('name','id','date','signInTime','signOutTime','isOverstaying','isSignedIn','venueName','name',)
 class BookingRequestSerializer(serializers.ModelSerializer):
     attendees=AttendeeSerializer(many=True)
     class Meta:

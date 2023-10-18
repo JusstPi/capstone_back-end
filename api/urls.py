@@ -6,6 +6,7 @@ from api.controllers.detailsController import DetailsController
 from api.controllers.managementController import ManagementController
 from api.controllers.dashboardController import DashboardController
 from api.controllers.tapController import TapController
+from api.controllers.logsController import LogsController
 urlpatterns = [
     # path('booking/',BookingDetail.as_view(),name='creation'),
     # path('currentBookings/',CurrentBookings.as_view(),name='currentBookings'),
@@ -18,14 +19,14 @@ urlpatterns = [
     ##Controllers na wa pa na separate
     path('getAttendees/<id>/',AttendeeDetail.as_view(),name='getBookingAttendees'),
     path('users/',Users.as_view(),name='getAllUsers'),
-    
+
     #view details na controller
     path('cancelBooking/<id>',DetailsController.cancelBooking,name="cancelbooking"),
-    
+
     #booking creation controller
     path('calculateCost/',BookingController.calculateCost,name="calculate payment or cost"),
     path('getUsers/',BookingController.getAllUsers,name="get all users"),
-    
+
     #booking management controller
     #admin view sa booking management
     path('getAllBookings/',ManagementController.getAllBooking,name="get all bookings"),
@@ -49,4 +50,5 @@ urlpatterns = [
     path('getOverstaying/',DashboardController.getOverstaying,name="get overstaying beyond their booking"),
     path('login/',login,name='login'),
     path('signup/',signup,name='signup'),
+    path('getAllAttendance/',LogsController.getAllAttendance, name="get all attendance"),
 ]

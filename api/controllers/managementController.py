@@ -49,7 +49,6 @@ class ManagementController():
         my_bookings = Booking.objects.filter(user_id=user_id).order_by('date','startTime')
         serializer = BookingSerializer(my_bookings, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
     @api_view(['GET'])
     def getUpcomingUserBookings(request, user_id):
         today = datetime.now()

@@ -23,7 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
 class AttendanceResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model=Attendance
-        fields=('name','id','date','signInTime','signOutTime','isOverstaying','isSignedIn','venueName','name',)
+        fields=('name','id','date','signInTime','signOutTime','isOverstaying','isSignedIn','venueName','name','venueId')
 class BookingRequestSerializer(serializers.ModelSerializer):
     attendees=AttendeeSerializer(many=True)
     class Meta:

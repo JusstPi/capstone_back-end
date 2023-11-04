@@ -40,7 +40,7 @@ def login(request):
         if(check_password(password,userFound.password)==False):
             print(userFound.password)
             print(make_password(password))
-            return Response({'message':'Invalid Password'},status=status.HTTP_200_OK)
+            return Response({'message':'Invalid Username or Password'},status=status.HTTP_200_OK)
     
     
     user=User(id=userFound.id,username=username)

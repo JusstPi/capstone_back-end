@@ -40,7 +40,7 @@ class TapController():
                 attendance.isSignedIn=False
                 attendance.signOutTime=datetime.datetime.now().time()
                 # overstaying
-                if(booking.endTime<datetime.datetime.now().time()):
+                if(booking.endTime<datetime.datetime.now().time() or booking.date<dateToday):
                     attendance.isOverstaying=True                    
                     
                 else:

@@ -5,6 +5,7 @@ from api.controllers.bookingController import BookingController
 from api.controllers.detailsController import DetailsController
 from api.controllers.managementController import ManagementController
 from api.controllers.dashboardController import DashboardController
+from api.controllers.logsController import *
 from api.controllers.tapController import TapController
 urlpatterns = [
     # path('booking/',BookingDetail.as_view(),name='creation'),
@@ -49,4 +50,6 @@ urlpatterns = [
     path('getOverstaying/',DashboardController.getOverstaying,name="get overstaying beyond their booking"),
     path('login/',login,name='login'),
     path('signup/',signup,name='signup'),
+    #for logs page
+    path('getAllAttendance/',LogsController.getAllAttendance, name="get all attendance"),
 ]

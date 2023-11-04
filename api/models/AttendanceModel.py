@@ -8,7 +8,8 @@ from django.db import models
 
 
 class Attendance(models.Model):
-    id = models.AutoField(primary_key=True)    
+    id = models.AutoField(primary_key=True)  
+    rfid=models.CharField(max_length=30,null=True)  
     date=models.DateField(auto_now_add=True)
     signInTime=models.TimeField(null=True)
     signOutTime=models.TimeField(null=True,default=None)   

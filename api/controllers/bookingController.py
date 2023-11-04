@@ -33,7 +33,7 @@ class BookingController():
         monday=converted_date-datetime.timedelta(converted_date.weekday())
         sunday=monday+datetime.timedelta(days=6)
         print(sunday)
-        obj = Booking.objects.filter(date__gte=monday.date(),date__lte=sunday.date(),user_id=user_id)
+        obj = Booking.objects.filter(date__gte=monday.date(),date__lte=sunday.date(),user_id=user_id,status="Booked")
         duration=0
         for item in obj:
             duration+=item.duration

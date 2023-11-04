@@ -1,5 +1,6 @@
 import datetime
 import json
+
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
@@ -29,7 +30,7 @@ class BookingController():
         converted_date=datetime.datetime.strptime(chosen_date, "%Y-%m-%d")
         
         
-        monday=converted_date-datetime.timedelta(datetime.datetime.now().weekday())
+        monday=converted_date-datetime.timedelta(converted_date.weekday())
         sunday=monday+datetime.timedelta(days=6)
         print(sunday)
         obj = Booking.objects.filter(date__gte=monday.date(),date__lte=sunday.date(),user_id=user_id)
@@ -37,7 +38,7 @@ class BookingController():
         for item in obj:
             duration+=item.duration
         serializer = BookingSerializer(obj,many=True)
-        return Response({"duration":duration,"data":serializer.data},status=status.HTTP_200_OK)
+        return Response({"duration":duration,"data":serializer.data,"monday":monday},status=status.HTTP_200_OK)
     @api_view(['GET'])
     def getAllUsers(request):        
         obj = user.objects.all()

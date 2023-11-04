@@ -27,7 +27,7 @@ def signup(request):
     return Response({'message':'usercreated'},status=status.HTTP_200_OK)
 @api_view(['POST'])
 def login(request):
-    
+
     username=request.data.get('username')
     password=request.data.get('password')
     userFound=None
@@ -40,9 +40,15 @@ def login(request):
         if(check_password(password,userFound.password)==False):
             print(userFound.password)
             print(make_password(password))
+<<<<<<< HEAD
             return Response({'message':'Invalid Username or Password'},status=status.HTTP_200_OK)
     
     
+=======
+            return Response({'message':'Invalid Password'},status=status.HTTP_200_OK)
+
+
+>>>>>>> d722d75c5a0268ead0905422f7f4f126d7cae4c3
     user=User(id=userFound.id,username=username)
     refresh=RefreshToken.for_user(user)
     #extra response options below for jwt
@@ -51,19 +57,19 @@ def login(request):
     data={
         'refresh':str(refresh),
         'access':str(refresh.access_token),
-    }   
-    
+    }
+
     return Response(data=data,status=status.HTTP_200_OK)
 class BookingDetail(APIView):
-    def get(self,request):        
+    def get(self,request):
         obj = Booking.objects.all()
         serializer = BookingSerializer(obj,many=True)
         return JsonResponse(serializer.data,status=status.HTTP_200_OK)
 
-    def post(self, request):        
-        
-        serializer= BookingRequestSerializer(data=request.data)    
-        
+    def post(self, request):
+
+        serializer= BookingRequestSerializer(data=request.data)
+
         if serializer.is_valid():
             date=serializer.validated_data['date']
             # calculate hours_difference
@@ -83,7 +89,7 @@ class BookingDetail(APIView):
 class CurrentBookings(APIView):
     # permission_classes=[IsAuthenticated,]
     # api to get bookings within 2 weeks ra
-   
+
     def get(self,request):
         # auth_header=request.META['HTTP_AUTHORIZATION']
         # # pra mawa ang word na Bearer
@@ -93,27 +99,26 @@ class CurrentBookings(APIView):
         # owner=user['user_id']
         week_start = date.today()
         week_start -= timedelta(days=week_start.weekday())
-        week_end = week_start + timedelta(days=14)        
+        week_end = week_start + timedelta(days=14)
         obj = Booking.objects.filter(date__gte=week_start,date__lt=week_end,status="Booked",)
         serializer = BookingSerializer(obj,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
-    
+
 class BookingByVenue(APIView):
     def get(self,request,id):
         print(id)
         obj=Booking.objects.filter(venue=id)
-        serializer=BookingSerializer(obj,many=True)    
+        serializer=BookingSerializer(obj,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
-    
+
 class Users(APIView):
     def get(self,request):
         users=user.objects.all()
         serializer=UserSerializer(users,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
-    
+
 class AttendeeDetail(APIView):
     def get(self,request,id):
         obj = Attendee.objects.filter(booking=id)
         serializer = AttendeeSerializer(obj,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
-    

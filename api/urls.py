@@ -30,6 +30,7 @@ urlpatterns = [
 
     #booking management controller
     #admin view sa booking management
+    path('getDurations/',BookingController.getDurations,name="calculate total hour for users"),
     path('getAllBookings/',ManagementController.getAllBooking,name="get all bookings"),
     path('getAllCancelledBookings/',ManagementController.getAllCancelledBooking,name="get all cancelled bookings"),
     path('getAllNoShowBookings/',ManagementController.getAllNoShowBooking,name="get all no show bookings"),
@@ -51,9 +52,6 @@ urlpatterns = [
     path('getOverstaying/',DashboardController.getOverstaying,name="get overstaying beyond their booking"),
     path('login/',login,name='login'),
     path('signup/',signup,name='signup'),
-<<<<<<< HEAD
     #for logs page
-=======
->>>>>>> d722d75c5a0268ead0905422f7f4f126d7cae4c3
     path('getAllAttendance/',LogsController.getAllAttendance, name="get all attendance"),
 ]

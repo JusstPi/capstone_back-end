@@ -1,3 +1,4 @@
+import datetime
 import json
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -19,6 +20,24 @@ from django.http import JsonResponse
 # Create your views here.
 
 class BookingController():
+    @api_view(['POST'])
+    def getDurations(request):    
+        request_body = json.loads(request.body.decode('utf-8'))    
+        chosen_date=request_body['date']
+        user_id=request_body['id']
+        # chosen_date="2023-11-05"
+        converted_date=datetime.datetime.strptime(chosen_date, "%Y-%m-%d")
+        
+        
+        monday=converted_date-datetime.timedelta(datetime.datetime.now().weekday())
+        sunday=monday+datetime.timedelta(days=6)
+        print(sunday)
+        obj = Booking.objects.filter(date__gte=monday.date(),date__lte=sunday.date(),user_id=user_id)
+        duration=0
+        for item in obj:
+            duration+=item.duration
+        serializer = BookingSerializer(obj,many=True)
+        return Response({"duration":duration,"data":serializer.data},status=status.HTTP_200_OK)
     @api_view(['GET'])
     def getAllUsers(request):        
         obj = user.objects.all()

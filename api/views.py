@@ -40,15 +40,9 @@ def login(request):
         if(check_password(password,userFound.password)==False):
             print(userFound.password)
             print(make_password(password))
-<<<<<<< HEAD
             return Response({'message':'Invalid Username or Password'},status=status.HTTP_200_OK)
     
     
-=======
-            return Response({'message':'Invalid Password'},status=status.HTTP_200_OK)
-
-
->>>>>>> d722d75c5a0268ead0905422f7f4f126d7cae4c3
     user=User(id=userFound.id,username=username)
     refresh=RefreshToken.for_user(user)
     #extra response options below for jwt

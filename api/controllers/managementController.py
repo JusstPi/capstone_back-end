@@ -21,7 +21,6 @@ from django.http import JsonResponse
 class ManagementController():
     ##first section: api for admin view of booking management
     @api_view(['GET'])
-<<<<<<< HEAD
     # get all bookings pra sa admin kay makakita ang admin sa tanan booking    
     def getAllBooking(request):        
         bookings=Booking.objects.all().order_by('-date','-startTime')        
@@ -30,16 +29,6 @@ class ManagementController():
     @api_view(['GET'])    
     def getAllCancelledBooking(request):        
         bookings=Booking.objects.filter(status="Cancelled").order_by('-date','-startTime')     
-=======
-    # get all bookings pra sa admin kay makakita ang admin sa tanan booking
-    def getAllBooking(request):
-        bookings=Booking.objects.all().order_by('date','startTime')
-        serializer=BookingSerializer(bookings, many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)
-    @api_view(['GET'])
-    def getAllCancelledBooking(request):
-        bookings=Booking.objects.filter(status="Cancelled").order_by('date','startTime')
->>>>>>> d722d75c5a0268ead0905422f7f4f126d7cae4c3
         serializer=BookingSerializer(bookings, many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
     @api_view(['GET'])
@@ -56,58 +45,23 @@ class ManagementController():
     ##2nd section ni which is user view of booking management.
     @api_view(['GET'])
     def getAllUserBookings(request, user_id):
-<<<<<<< HEAD
         today = datetime.now()       
         my_bookings = Booking.objects.filter(user_id=user_id).order_by('-date','-startTime')
-=======
-        today = datetime.now()
-        my_bookings = Booking.objects.filter(user_id=user_id).order_by('date','startTime')
->>>>>>> d722d75c5a0268ead0905422f7f4f126d7cae4c3
         serializer = BookingSerializer(my_bookings, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     @api_view(['GET'])
     def getUpcomingUserBookings(request, user_id):
-<<<<<<< HEAD
         today = datetime.now()       
         upcoming_bookings = Booking.objects.filter(date__gte=today, user_id=user_id).order_by('-date','-startTime')
         serializer = BookingSerializer(upcoming_bookings, many=True)
-=======
-        today = datetime.now()
-        upcoming_bookings = Booking.objects.filter(date__gt=today, user_id=user_id).order_by('date','startTime')
-
-        # Include bookings for today with a time in the future
-        today_bookings = Booking.objects.filter(
-            date=today.date(),
-            startTime__gt=today.time()
-        ).filter(
-            user_id=user_id
-        ).order_by('date', 'startTime')
-
-        # Concatenate upcoming and today's future bookings
-        all_upcoming_bookings = upcoming_bookings | today_bookings
-
-        serializer = BookingSerializer(all_upcoming_bookings, many=True)
->>>>>>> d722d75c5a0268ead0905422f7f4f126d7cae4c3
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
     @api_view(['GET'])
     def getHistoryUserBookings(request, user_id):
         today = datetime.now()
-<<<<<<< HEAD
         history_bookings = Booking.objects.filter(date__lt=today, user_id=user_id).order_by('-date','-startTime')
         serializer = BookingSerializer(history_bookings, many=True)
-=======
-        history_bookings = Booking.objects.filter(date__lt=today, user_id=user_id).order_by('date','startTime')
-        today_bookings = Booking.objects.filter(
-            date=today.date(),
-            startTime__lt=today.time()
-        ).filter(
-            user_id=user_id
-        ).order_by('date', 'startTime')
-        all_history_bookings = history_bookings | today_bookings
-        serializer = BookingSerializer(all_history_bookings, many=True)
->>>>>>> d722d75c5a0268ead0905422f7f4f126d7cae4c3
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     ##3rd section for editting booking details

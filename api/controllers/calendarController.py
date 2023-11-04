@@ -34,9 +34,9 @@ class CalendarController():
         # user=decode_user(token)
         # owner=user['user_id']
         week_start = date.today()
-        week_start -= timedelta(days=week_start.weekday())
+        # week_start -= timedelta(days=week_start.weekday())
         week_end = week_start + timedelta(days=14)        
-        obj = Booking.objects.filter(date__gte=week_start,date__lt=week_end,status="Booked",)
+        obj = Booking.objects.filter(date__gte=week_start,date__lte=week_end,status="Booked",)
         serializer = BookingSerializer(obj,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
     

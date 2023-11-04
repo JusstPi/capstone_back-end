@@ -81,6 +81,7 @@ class DashboardController():
         coworkingSpace=0
         timeNow=datetime.datetime.now()
         timePlusFive=timeNow+datetime.timedelta(minutes=5)
+        
         res=Attendance.objects.filter(isSignedIn=True)
         for attendanceObj in res:
             if((attendanceObj.booking.endTime<timePlusFive.time() and attendanceObj.date==datetime.datetime.now().date() )or attendanceObj.date<datetime.datetime.now().date()):

@@ -84,7 +84,12 @@ class DashboardController():
         
         res=Attendance.objects.filter(isSignedIn=True)
         for attendanceObj in res:
-            if((attendanceObj.booking.endTime<timePlusFive.time() and attendanceObj.date==datetime.datetime.now().date() )or attendanceObj.date<datetime.datetime.now().date()):
+            endtime=attendanceObj.booking.endTime
+            fulldate=datetime.datetime(100,1,1,endtime.hour,endtime.minute,endtime.second)
+            endtimePlusFive=(fulldate+datetime.timedelta(minutes=5)).time()
+            print(type (attendanceObj.booking.endTime))
+            print(type (timeNow.time()))
+            if((endtimePlusFive < timeNow.time() and attendanceObj.date==datetime.datetime.now().date() )or attendanceObj.date<datetime.datetime.now().date()):
                 if(attendanceObj.venueName=='Conference Room A'):
                     conferenceRoomA+=1
                 elif(attendanceObj.venueName=='Conference Room B'):
@@ -98,19 +103,20 @@ class DashboardController():
         conferenceRoomB=0
         coworkingSpace=0
         timeNow=datetime.datetime.now().time()
-        res=Booking.objects.filter(date=datetime.datetime.now().date(),startTime__gt=timeNow)
+        res=Booking.objects.filter(date=datetime.datetime.now().date(),startTime__gt=timeNow, status="Booked")
         print("res:")
         print(res.count())
         for booking in res:
-            
+            # get the logged attendance pra iminus sa expected
+            bookingAttendanceCount= Attendance.objects.filter(booking=booking).count()
             attendeeCount=Attendee.objects.filter(booking=booking).count()
             print(attendeeCount)
             if(booking.venue.id==1):
-                coworkingSpace= coworkingSpace+attendeeCount
+                coworkingSpace= coworkingSpace+attendeeCount-bookingAttendanceCount
             elif(booking.venue.id==2):
-                conferenceRoomA= conferenceRoomA+attendeeCount
+                conferenceRoomA= conferenceRoomA+attendeeCount-bookingAttendanceCount
             elif(booking.venue.id==3):
-                conferenceRoomB=conferenceRoomB+attendeeCount
+                conferenceRoomB=conferenceRoomB+attendeeCount-bookingAttendanceCount
         return Response({"conferenceRoomA":conferenceRoomA,"conferenceRoomB":conferenceRoomB,"coworkingSpace":coworkingSpace}, status=status.HTTP_200_OK)
     @api_view(['GET'])
     def signOutAll(request):

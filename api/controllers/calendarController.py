@@ -1,4 +1,6 @@
 import json
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
@@ -6,13 +8,14 @@ from django.http.response import JsonResponse
 from rest_framework.response import Response
 from rest_framework import *
 # from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from api.models import Booking,Venue,User as user,Attendee
 from api.serializers import BookingSerializer, VenueSerializer,BookingRequestSerializer,UserSerializer,AttendeeSerializer
 # from rest_framework.permissions import IsAuthenticated,AllowAny
 from api.jwt_util import decode_user
 from datetime import datetime, date, timedelta
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,authentication_classes,permission_classes
 # from django.contrib.auth.models import User
 from django.http import JsonResponse
 # from rest_framework_simplejwt.tokens import RefreshToken
@@ -25,14 +28,21 @@ class CalendarController():
     #     serializer = BookingSerializer(obj,many=True)
     #     return JsonResponse(serializer.data,status=status.HTTP_200_OK)
     
-    @api_view(['GET'])
+    @api_view(['GET'])   
+    
     def getCurrentBookings(request):
-        # auth_header=request.META['HTTP_AUTHORIZATION']
+        # try:
+        #     auth_header=request.META['HTTP_AUTHORIZATION']
+        # except:
+        #     return Response({"unauthorized":"no token"},status=status.HTTP_401_UNAUTHORIZED)
         # # pra mawa ang word na Bearer
         # token=auth_header[7:len(auth_header)+1]
         # print(token)
         # user=decode_user(token)
         # owner=user['user_id']
+        # if not owner:
+        #     return Response({"unauthorized":"unauthorized"},status=status.HTTP_401_UNAUTHORIZED)
+        
         week_start = date.today()
         # week_start -= timedelta(days=week_start.weekday())
         week_end = week_start + timedelta(days=14)        

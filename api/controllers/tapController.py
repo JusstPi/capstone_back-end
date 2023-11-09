@@ -58,7 +58,7 @@ class TapController():
                 else:                   
                     
                     
-                    if booking.date==dateToday and booking.endTime > timeNow and booking.startTime<=thirtyMinutes.time():
+                    if booking.date==dateToday and booking.endTime > timeNow and booking.startTime<=thirtyMinutes.time() and booking.status=="Booked":
                         
                         if booking.isUsed==False:                        
                             booking.isUsed=True
